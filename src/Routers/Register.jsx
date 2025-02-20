@@ -429,7 +429,17 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen">
+    <div className="flex flex-col lg:flex-row justify-evenly items-center min-h-screen bg-gray-100 p-4">
+      {/* left side */}
+      <div className="hidden lg:flex w-1/2 justify-center">
+          <img
+            src="https://i.ibb.co.com/0v7Z4ps/pros-cons-concept-illustration-114360-14879.jpg"
+            alt="Register Illustration"
+            className="w-full rounded-lg shadow-lg"
+          />
+        </div>
+      {/* right side */}
+      <div className="flex flex-col justify-center items-center min-h-screen">
       <div
         className={`${
           dark ? "border border-yellow-300" : "bg-white"
@@ -596,9 +606,10 @@ const Register = () => {
         </div> */}
 
         <p className="mt-4 text-center">
-          Already have an account? <Link to="/auth/login">Login</Link>
+          Already have an account? <Link to="/auth/login"><span className="link link-info text-blue-500 hover:underline font-semibold">Login</span></Link>
         </p>
       </div>
+    </div>
     </div>
   );
 };
