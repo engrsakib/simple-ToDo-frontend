@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../provider/AuthProvider";
 import useGetAllUsers from "../Dashboard/user/AllUsers/useGetAllUsers";
 import Loading from "../Loading";
+import { Helmet } from "react-helmet";
 
 const AddTask = () => {
   const { dark, user } = useContext(AuthContext);
@@ -47,6 +48,7 @@ const AddTask = () => {
   };
 
   return (
+    <>
     <div className="flex mt-9 flex-col lg:flex-row items-center lg:items-start p-6">
       {/* Image Section */}
       <div className="w-full lg:w-1/3 mb-6 lg:mb-0">
@@ -115,6 +117,10 @@ const AddTask = () => {
         </form>
       </div>
     </div>
+    <Helmet>
+        <title>Add Task - TaskStorm</title>
+    </Helmet>
+    </>
   );
 };
 
