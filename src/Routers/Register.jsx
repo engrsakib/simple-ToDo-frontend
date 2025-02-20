@@ -298,7 +298,7 @@ const Register = () => {
     name: "",
     email: "",
     photoUrl: "",
-    bloodGroup: "",
+    gender: "",
     district: "",
     upazila: "",
     status: "active",
@@ -500,14 +500,14 @@ const Register = () => {
           {/* Blood Group */}
           <div className="mb-4">
             <select
-              name="bloodGroup"
-              value={formData.bloodGroup}
+              name="gender"
+              value={formData.gender}
               onChange={handleChange}
               className="input input-bordered w-full"
               required
             >
-              <option value="">Select Blood Group</option>
-              {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map(
+              <option value="">Select Gender</option>
+              {["Male", "Female"].map(
                 (group) => (
                   <option key={group} value={group}>
                     {group}
