@@ -38,23 +38,8 @@ const router = createBrowserRouter([
         element: <Privete><Home></Home></Privete>,
       },
       
-      {
-        path: "/auth/login",
-        element: (
-          <Public>
-            <LogIn></LogIn>
-          </Public>
-        ),
-      },
-      {
-        path: "/auth/register",
-        element: (
-          <Public>
-            <Register></Register>
-          </Public>
-        ),
-      },
     ],
+    
   },
   // dashboard work
   {
@@ -83,6 +68,23 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  // credentials work
+  {
+    path: "/auth/login",
+    element: (
+      <Public>
+        <LogIn></LogIn>
+      </Public>
+    ),
+  },
+  {
+    path: "/auth/register",
+    element: (
+      <Public>
+        <Register></Register>
+      </Public>
+    ),
   },
 ]);
 

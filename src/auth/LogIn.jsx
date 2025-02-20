@@ -68,7 +68,7 @@ const LogIn = () => {
           <img
             src="https://i.ibb.co.com/1GkjDmZn/project-deadline-job-organization-poster-107791-1627.jpg"
             alt="Login Illustration"
-            className="w-3/4 rounded-lg shadow-lg"
+            className="w-full rounded-lg shadow-lg"
           />
         </div>
         {/* Right Side Form */}
@@ -159,7 +159,7 @@ const LogIn = () => {
                 className="btn btn-info"
                 onClick={() => handleAutoFill("admin")}
               >
-                Admin Credentials
+                User Credentials
               </button>
               
             </div>
