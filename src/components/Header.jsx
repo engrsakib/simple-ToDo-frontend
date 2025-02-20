@@ -2,11 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import { GoSun } from "react-icons/go";
-import { FaMoon, FaUserCircle, FaHome, FaVideo, FaBars } from "react-icons/fa";
+import { FaMoon, FaUserCircle, FaHome, FaVideo, FaBars, FaAddressBook } from "react-icons/fa";
 import { auth } from "../Firebase/firebase.congig";
 import { signOut } from "firebase/auth";
 import Swal from "sweetalert2";
 import useGetAllUsers from "./Dashboard/user/AllUsers/useGetAllUsers";
+import { BiSolidMessageSquareAdd } from "react-icons/bi";
 
 const Header = () => {
   const { setdark, dark, user } = useContext(AuthContext);
@@ -50,6 +51,27 @@ const Header = () => {
     });
   };
 
+  // menue
+  const menue = <>
+    <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `text-2xl ${isActive ? "text-info" : "text-gray-600"} space-y-3`
+            }
+          >
+            <FaHome />
+          </NavLink>
+          <NavLink
+            to="/add-Task"
+            className={({ isActive }) =>
+              `text-2xl ${isActive ? "text-info" : "text-gray-600"} `
+            }
+          >
+            <BiSolidMessageSquareAdd />
+          </NavLink>
+  
+  </>
+
   return (
     <div
       className={`fixed top-0 left-0 w-full transition-transform duration-300 p-3 shadow-md z-50 ${
@@ -72,22 +94,9 @@ const Header = () => {
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex space-x-6">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `text-2xl ${isActive ? "text-info" : "text-gray-600"}`
-            }
-          >
-            <FaHome />
-          </NavLink>
-          <NavLink
-            to="/video"
-            className={({ isActive }) =>
-              `text-2xl ${isActive ? "text-info" : "text-gray-600"}`
-            }
-          >
-            <FaVideo />
-          </NavLink>
+          {
+            menue
+          }
         </div>
 
         {/* Theme Toggle & User Menu */}
@@ -145,22 +154,9 @@ const Header = () => {
       {/* Mobile Menu */}
       {showMobileMenu && (
         <div className="lg:hidden absolute left-0 top-full w-40 bg-gray-200 p-2 shadow-md rounded-md">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `block py-2 ${isActive ? "text-info" : "text-gray-600"}`
-            }
-          >
-            <FaHome className="inline-block mr-2" /> Home
-          </NavLink>
-          <NavLink
-            to="/video"
-            className={({ isActive }) =>
-              `block py-2 ${isActive ? "text-info" : "text-gray-600"}`
-            }
-          >
-            <FaVideo className="inline-block mr-2" /> Video
-          </NavLink>
+          {
+            menue
+          }
         </div>
       )}
     </div>
