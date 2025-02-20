@@ -3,6 +3,7 @@ import { MdDelete } from "react-icons/md";
 import { FaPencilAlt } from "react-icons/fa";
 import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const TaskCard = ({ task }) => {
   const { dark } = useContext(AuthContext);
@@ -10,12 +11,34 @@ const TaskCard = ({ task }) => {
 
   const { title, category, description } = task;
   const handleDelete = (id) => {
-    console.log( id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const response = await axios.delete(`http://localhost:5000/add-task/deleteTask/${id}`);
+        if (response.status === 200) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+      }
+    });
   };
   return (
     <div
       className={`p-5 rounded-2xl shadow-lg transition-all duration-300 cursor-pointer border 
-      ${dark ? "bg-gray-800 border-gray-700 text-white" : "bg-gray-200 border-gray-300 text-black"} 
+      ${
+        dark
+          ? "bg-gray-800 border-gray-700 text-white"
+          : "bg-gray-200 border-gray-300 text-black"
+      } 
       hover:scale-105 hover:shadow-2xl`}
     >
       <h1 className="font-bold text-2xl mb-2 truncate">{title}</h1>
@@ -25,7 +48,13 @@ const TaskCard = ({ task }) => {
       <div className="flex justify-between items-center">
         <button
           className={`py-1 px-5 rounded-3xl font-semibold text-white text-sm 
-          ${category === "To-Do" ? "bg-green-500" : category === "In Progress" ? "bg-orange-500" : "bg-blue-500"}`}
+          ${
+            category === "To-Do"
+              ? "bg-green-500"
+              : category === "In Progress"
+              ? "bg-orange-500"
+              : "bg-blue-500"
+          }`}
         >
           {category}
         </button>
