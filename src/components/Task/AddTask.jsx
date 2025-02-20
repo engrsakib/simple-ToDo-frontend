@@ -29,9 +29,9 @@ const AddTask = () => {
       date: date, 
       time: time.split(".")[0], 
       user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
+        id: users._id,
+        name: users.name,
+        email: users.email,
       },
     };
 
