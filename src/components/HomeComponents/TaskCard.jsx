@@ -1,17 +1,19 @@
-/* eslint-disable react/prop-types */
 import { MdDelete } from "react-icons/md";
 import { FaPencilAlt } from "react-icons/fa";
 import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
+import axios from "axios";
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ task, refetchDone, refetchInProgress, refetchTodo }) => {
   const { dark } = useContext(AuthContext);
   if (!task) return null;
 
   const { title, category, description } = task;
-  const handleDelete = (id) => {
-    Swal.fire({
+
+  const handleDelete = async (taskId) => {
+    // SweetAlert
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -19,26 +21,41 @@ const TaskCard = ({ task }) => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const response = await axios.delete(`http://localhost:5000/add-task/deleteTask/${id}`);
+    });
+
+    if (result.isConfirmed) {
+      try {
+        // axios.delete
+        const response = await axios.delete(
+          `http://localhost:5000/add-task/deleteTask/${taskId}`
+        );
+
         if (response.status === 200) {
+          // refetch all categories after deleting
+         
+
           Swal.fire({
             title: "Deleted!",
-            text: "Your file has been deleted.",
+            text: "Your task has been deleted.",
             icon: "success",
           });
+        }
+      } catch (error) {
+        Swal.fire({
+          title: "Error!",
+          text: "There was an error deleting the task.",
+          icon: "error",
+        });
       }
-    });
+    }
   };
+
   return (
     <div
       className={`p-5 rounded-2xl shadow-lg transition-all duration-300 cursor-pointer border 
-      ${
-        dark
-          ? "bg-gray-800 border-gray-700 text-white"
-          : "bg-gray-200 border-gray-300 text-black"
-      } 
+      ${dark
+        ? "bg-gray-800 border-gray-700 text-white"
+        : "bg-gray-200 border-gray-300 text-black"} 
       hover:scale-105 hover:shadow-2xl`}
     >
       <h1 className="font-bold text-2xl mb-2 truncate">{title}</h1>
@@ -48,13 +65,11 @@ const TaskCard = ({ task }) => {
       <div className="flex justify-between items-center">
         <button
           className={`py-1 px-5 rounded-3xl font-semibold text-white text-sm 
-          ${
-            category === "To-Do"
-              ? "bg-green-500"
-              : category === "In Progress"
-              ? "bg-orange-500"
-              : "bg-blue-500"
-          }`}
+          ${category === "To-Do"
+            ? "bg-green-500"
+            : category === "In Progress"
+            ? "bg-orange-500"
+            : "bg-blue-500"}`}
         >
           {category}
         </button>
