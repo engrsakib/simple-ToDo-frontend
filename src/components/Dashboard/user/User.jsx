@@ -88,8 +88,8 @@ const User = () => {
             <div className="divider"></div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-gray-500">Blood Grupe</p>
-                <p className="font-medium">{users?.bloodGroup}</p>
+                <p className="text-sm text-gray-500">Gender</p>
+                <p className="font-medium">{users?.gender}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500">District</p>
@@ -100,7 +100,7 @@ const User = () => {
                 <p className="font-medium">{users?.upazila}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-500">Last Donations</p>
+                <p className="text-sm text-gray-500">Total Post</p>
                 <p className="font-medium">{users?.last || "N/A"}</p>
               </div>
             </div>

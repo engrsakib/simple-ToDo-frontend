@@ -286,7 +286,7 @@ const districtData = {
   Thakurgaon: ["Ranisankail", "Baliadangi", "Pirganj", "Haripur", "Sadar"],
 };
 
-const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+const Gender = ["Male", "Female"];
 
 const UserEdit = () => {
   const { user, dark, setLoadding } = useContext(AuthContext);
@@ -303,7 +303,7 @@ const UserEdit = () => {
   const [formData, setFormData] = useState({
     name: users.name,
     photoUrl: users.photoUrl,
-    bloodGroup: users.bloodGroup || "",
+    gender: users.gender || "",
     district: users.district || "",
     upazila: users.upazila || "",
     email: users.email || "",
@@ -400,10 +400,10 @@ const UserEdit = () => {
             />
           </div>
           <div>
-            <label className="block text-sm text-gray-500">Blood Group</label>
+            <label className="block text-sm text-gray-500">Gender</label>
             <select
-              name="bloodGroup"
-              value={formData.bloodGroup}
+              name="gender"
+              value={formData.gender}
               onChange={handleChange}
               className="select select-bordered w-full"
               required
@@ -411,7 +411,7 @@ const UserEdit = () => {
               <option value="" disabled>
                 Select your blood group
               </option>
-              {bloodGroups.map((group) => (
+              {Gender.map((group) => (
                 <option key={group} value={group}>
                   {group}
                 </option>
