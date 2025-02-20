@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const Fourzero = () => {
   const navigate = useNavigate();
   const img =
-    "https://i.ibb.co.com/dtJsgrH/red-exclamation-circle-sign-warning-danger-risk-message-alert-problem-icon-background-concept-3d-ren.jpg";
+    "https://i.ibb.co.com/NgFY1XXj/internet-network-warning-404-error-page-file-found-web-page-internet-error-page-issue-found-network.jpg";
     return (
       <>
         <div className="flex flex-col items-center my-6">
