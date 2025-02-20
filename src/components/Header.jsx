@@ -1,26 +1,35 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import { GoSun } from "react-icons/go";
-import { FaMoon, FaUserCircle } from "react-icons/fa";
+import { FaMoon, FaUserCircle, FaHome, FaVideo, FaBars } from "react-icons/fa";
 import { auth } from "../Firebase/firebase.congig";
 import { signOut } from "firebase/auth";
 import Swal from "sweetalert2";
-import useGetAllUsers from "./Dashboard/user/AllUsers/useGetAllUsers";
-import Loading from "./Loading";
 
 const Header = () => {
   const { setdark, dark, user } = useContext(AuthContext);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [lastScrollTop, setLastScrollTop] = useState(0);
+  const [visible, setVisible] = useState(true);
 
-  const { users, refetch, isPending } = useGetAllUsers(user);
+  useEffect(() => {
+    const handleScroll = () => {
+      let st = window.scrollY;
+      if (st > lastScrollTop) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+      setLastScrollTop(st);
+    };
 
-  if (isPending) {
-    return <Loading />;
-  }
-  refetch();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollTop]);
 
-  const singOut = () => {
+  const handleSignOut = () => {
     Swal.fire({
       title: "Do you want to Sign Out?",
       showDenyButton: true,
@@ -35,177 +44,82 @@ const Header = () => {
           .catch((error) => {
             console.error("Sign-out error:", error);
           });
-      } else if (result.isDenied) {
-        Swal.fire("You stayed logged in", "", "info");
       }
     });
   };
 
-  const handletheme = () => {
-    setdark(!dark);
-  };
-
-  const links = (
-    <>
-      {["Home", "Donation requests", "Blogs", "Search donor"].map(
-        (link, index) => (
-          <NavLink
-            key={index}
-            to={`${
-              link === "Home"
-                ? "/"
-                : `/${link.toLowerCase().replace(" ", "")}`
-            }`}
-            className={({ isActive }) =>
-              `px-4 py-2 rounded ${
-                isActive
-                  ? "bg-green-500 text-white"
-                  : "bg-transparent hover:bg-red-400"
-              } ${dark ? "text-gray-50" : "text-gray-800"}`
-            }
-          >
-            {link}
-          </NavLink>
-        )
-      )}
-      {/* Fund me Link - Only Visible When Users Exist */}
-      {users && (
-        <NavLink
-          to="/fundme"
-          className={({ isActive }) =>
-            `px-4 py-2 rounded ${
-              isActive
-                ? "bg-green-500 text-white"
-                : "bg-transparent hover:bg-red-400"
-            } ${dark ? "text-gray-50" : "text-gray-800"}`
-          }
-        >
-          Fund me
-        </NavLink>
-      )}
-    </>
-  );
-
   return (
     <div
-      className={`navbar ${
-        dark ? "bg-gray-900 text-gray-50" : "bg-gray-100 text-gray-900"
-      } rounded-lg p-3 shadow-md`}
+      className={`fixed top-0 left-0 w-full transition-transform duration-300 p-3 shadow-md z-50 ${
+        visible ? "translate-y-0" : "-translate-y-full"
+      } ${dark ? "bg-gray-900 text-gray-50" : "bg-gray-100 text-gray-900"}`}
     >
-      {/* Navbar Start */}
-      <div className="navbar-start">
-        <div className="dropdown">
-          <button tabIndex={0} className="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
-          </button>
-          <ul
-            tabIndex={0}
-            className={`menu menu-sm dropdown-content rounded-box mt-3 w-52 p-2 shadow ${
-              dark ? "bg-gray-800" : "bg-gray-50"
-            }`}
-          >
-            {links}
-          </ul>
-        </div>
-        <Link
-          to="/"
-          className={`text-2xl font-bold ${
-            dark ? "text-red-400" : "text-red-800"
-          }`}
+      <div className="flex justify-between items-center">
+        {/* Mobile Menu Button */}
+        <button
+          className="lg:hidden p-2"
+          onClick={() => setShowMobileMenu(!showMobileMenu)}
         >
-          BloodBridge
-        </Link>
-      </div>
-
-      {/* Navbar Center */}
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 space-x-6">{links}</ul>
-      </div>
-
-      {/* Navbar End */}
-      <div className="navbar-end flex items-center space-x-4">
-        {/* Theme Toggle */}
-        <button onClick={handletheme} className="btn btn-circle">
-          {dark ? (
-            <GoSun className="text-yellow-400 text-xl" />
-          ) : (
-            <FaMoon className="text-indigo-600 text-xl" />
-          )}
+          <FaBars className="text-2xl" />
         </button>
 
-        {/* User Menu */}
-        <div className="relative">
-          <button
-            onClick={() => setShowUserMenu(!showUserMenu)}
-            className="btn btn-ghost btn-circle"
+        {/* Logo */}
+        <Link to="/" className="text-2xl font-bold text-red-800">
+          TaskStorm
+        </Link>
+
+        {/* Desktop Menu */}
+        <div className="hidden lg:flex space-x-6">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `text-2xl ${isActive ? "text-info" : "text-gray-600"}`
+            }
           >
-            {user ? (
-              <div className="tooltip" data-tip={users.name}>
-                <img
-                  className="rounded-full shadow-lg"
-                  src={users.photoUrl || user.photoURL}
-                  alt=""
-                  data-tip={user.name}
-                />
-              </div>
-            ) : (
-              <FaUserCircle className="text-2xl" />
-            )}
+            <FaHome />
+          </NavLink>
+          <NavLink
+            to="/video"
+            className={({ isActive }) =>
+              `text-2xl ${isActive ? "text-info" : "text-gray-600"}`
+            }
+          >
+            <FaVideo />
+          </NavLink>
+        </div>
+
+        {/* Theme Toggle & User Menu */}
+        <div className="flex items-center space-x-4">
+          <button onClick={() => setdark(!dark)} className="btn btn-circle">
+            {dark ? <GoSun className="text-yellow-400 text-xl" /> : <FaMoon className="text-indigo-600 text-xl" />}
           </button>
-          {showUserMenu && (
-            <div
-              className={`absolute right-0 mt-2 w-40 rounded-md shadow-lg ${
-                dark ? "bg-gray-800 text-gray-50" : "bg-gray-50 text-gray-900"
-              }`}
-            >
-              {!user ? (
-                <div className="p-2">
-                  <Link
-                    to="/auth/login"
-                    className="block px-4 py-2 hover:bg-gray-200 rounded"
-                  >
-                    LogIn
-                  </Link>
-                  <Link
-                    to="/auth/register"
-                    className="block px-4 py-2 hover:bg-gray-200 rounded"
-                  >
-                    SignUp
-                  </Link>
-                </div>
-              ) : (
-                <div className="p-2">
-                  <Link
-                    to="/dashboard/profile"
-                    className="block px-4 py-2 hover:bg-gray-200 rounded"
-                  >
-                    Profile
-                  </Link>
-                  <button
-                    onClick={singOut}
-                    className="block w-full text-left px-4 py-2 hover:bg-gray-200 rounded"
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+          <button onClick={() => setShowUserMenu(!showUserMenu)} className="btn btn-ghost btn-circle">
+            {user ? <FaUserCircle className="text-2xl" /> : <FaUserCircle className="text-2xl" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {showMobileMenu && (
+        <div className="lg:hidden absolute left-0 top-full w-40 bg-gray-200 p-2 shadow-md rounded-md">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `block py-2 ${isActive ? "text-info" : "text-gray-600"}`
+            }
+          >
+            <FaHome className="inline-block mr-2" /> Home
+          </NavLink>
+          <NavLink
+            to="/video"
+            className={({ isActive }) =>
+              `block py-2 ${isActive ? "text-info" : "text-gray-600"}`
+            }
+          >
+            <FaVideo className="inline-block mr-2" /> Video
+          </NavLink>
+        </div>
+      )}
     </div>
   );
 };
