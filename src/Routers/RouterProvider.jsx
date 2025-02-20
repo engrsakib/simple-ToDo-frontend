@@ -35,44 +35,9 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home></Home>,
+        element: <Privete><Home></Home></Privete>,
       },
-      {
-        path: "/donationrequests",
-        element: <AllDonationsHome></AllDonationsHome>,
-      },
-      {
-        path: "/searchdonor",
-        element: <Search></Search>,
-      },
-      {
-        path: "/blogs/details/:id",
-        element: (
-          <Privete>
-            <BlogsDetials></BlogsDetials>
-          </Privete>
-        ),
-      },
-      {
-        path: "/fundme",
-        element: (
-          
-            <Foundme></Foundme>
-        
-        ),
-      },
-      {
-        path: "/blogs/details/:id",
-        element: (
-          <Privete>
-            <BlogsDetials></BlogsDetials>
-          </Privete>
-        ),
-      },
-      {
-        path: "/blogs",
-        element: <Blogs></Blogs>,
-      },
+      
       {
         path: "/auth/login",
         element: (
@@ -100,14 +65,7 @@ const router = createBrowserRouter([
       </Privete>
     ),
     children: [
-      {
-        path: "/dashboard",
-        element: (
-          <Privete>
-            <DashboardHome></DashboardHome>
-          </Privete>
-        ),
-      },
+      
       {
         path: "/dashboard/profile",
         element: (
@@ -121,83 +79,6 @@ const router = createBrowserRouter([
         element: (
           <Privete>
             <UserEdit></UserEdit>
-          </Privete>
-        ),
-      },
-      {
-        path: "/dashboard/create-donation-request",
-        element: (
-          <Privete>
-            <CreateDonations></CreateDonations>
-          </Privete>
-        ),
-      },
-      {
-        path: "/dashboard/my-donation-requests",
-        element: (
-          <Privete>
-            <MyDonations></MyDonations>
-          </Privete>
-        ),
-      },
-      {
-        path: "/dashboard/content-management/add-blog",
-        element: (
-          <Privete>
-            <CreateBlogs></CreateBlogs>
-          </Privete>
-        ),
-      },
-      {
-        path: "/dashboard/all-blood-donation-request",
-        element: (
-          <Privete>
-            <AllDonations></AllDonations>
-          </Privete>
-        ),
-      },
-      {
-        path: "/dashboard/donation/edit/:id",
-        element: (
-          <Privete>
-            <MyDonationEidit></MyDonationEidit>
-          </Privete>
-        ),
-      },
-      {
-        path: "/dashboard/donation/detiels/:id",
-        element: (
-          <Privete>
-            <Details></Details>
-          </Privete>
-        ),
-      },
-      {
-        path: "/dashboard/fundme/add-fund",
-        element: (
-          <Privete>
-            <AddFund></AddFund>
-          </Privete>
-        ),
-      },
-      {
-        path: "/dashboard/all-users",
-        element: (
-          <Privete>
-            <Admin>
-              <AllUsers></AllUsers>
-            </Admin>
-          </Privete>
-        ),
-      },
-
-      {
-        path: "/dashboard/content-management",
-        element: (
-          <Privete>
-            <Admin>
-              <ContentManagement></ContentManagement>
-            </Admin>
           </Privete>
         ),
       },
