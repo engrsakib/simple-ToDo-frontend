@@ -8,7 +8,6 @@ import Loading from "./Loading";
 
 const Google = () => {
   const { setUser, setLoadding, Loading, user } = useContext(AuthContext);
-  
 
   const navigate = useNavigate();
   const handleGoogleLogin = () => {
@@ -33,6 +32,8 @@ const Google = () => {
           photoUrl,
           crateDate: users?.metadata?.creationTime,
           lastSignInDate: users?.metadata?.lastSignInTime,
+          status: "active",
+          role: "user",
         };
 
         if (!user || user.mail !== users.email) {
