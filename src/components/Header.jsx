@@ -6,6 +6,7 @@ import { FaMoon, FaUserCircle, FaHome, FaVideo, FaBars } from "react-icons/fa";
 import { auth } from "../Firebase/firebase.congig";
 import { signOut } from "firebase/auth";
 import Swal from "sweetalert2";
+import useGetAllUsers from "./Dashboard/user/AllUsers/useGetAllUsers";
 
 const Header = () => {
   const { setdark, dark, user } = useContext(AuthContext);
@@ -13,6 +14,7 @@ const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [visible, setVisible] = useState(true);
+  const { users, refetch, isPending } = useGetAllUsers(user);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -94,8 +96,49 @@ const Header = () => {
             {dark ? <GoSun className="text-yellow-400 text-xl" /> : <FaMoon className="text-indigo-600 text-xl" />}
           </button>
           <button onClick={() => setShowUserMenu(!showUserMenu)} className="btn btn-ghost btn-circle">
-            {user ? <FaUserCircle className="text-2xl" /> : <FaUserCircle className="text-2xl" />}
+            {user ? (
+              <div className="tooltip" data-tip={users?.name || user?.displayName}>
+                <img
+                  className="w-10 h-10 rounded-full shadow-lg"
+                  src={users?.photoUrl || user?.photoURL || "https://via.placeholder.com/40"}
+                  alt="User"
+                />
+              </div>
+            ) : (
+              <FaUserCircle className="text-2xl" />
+            )}
           </button>
+
+          {showUserMenu && (
+            <div
+              className={`absolute right-0 mt-2 w-40 rounded-md shadow-lg ${
+                dark ? "bg-gray-800 text-gray-50" : "bg-gray-50 text-gray-900"
+              }`}
+            >
+              {!user ? (
+                <div className="p-2">
+                  <Link to="/auth/login" className="block px-4 py-2 hover:bg-gray-200 rounded">
+                    LogIn
+                  </Link>
+                  <Link to="/auth/register" className="block px-4 py-2 hover:bg-gray-200 rounded">
+                    SignUp
+                  </Link>
+                </div>
+              ) : (
+                <div className="p-2">
+                  <Link to="/dashboard/profile" className="block px-4 py-2 hover:bg-gray-200 rounded">
+                    Profile
+                  </Link>
+                  <button
+                    onClick={handleSignOut}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-200 rounded"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
