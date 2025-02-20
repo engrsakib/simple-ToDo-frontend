@@ -3,7 +3,7 @@ import { AuthContext } from "../../../provider/AuthProvider";
 // Adjust the import path
 import { GrStatusWarning } from "react-icons/gr";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../Loading";
 import { FaPen } from "react-icons/fa";
@@ -72,7 +72,7 @@ const User = () => {
 
           {/* Profile Details */}
           <div
-            className={`col-span-2 card shadow-xl p-6 rounded-lg ${
+            className={`lg:col-span-2 col-span-1 card shadow-xl p-6 rounded-lg ${
               dark ? "bg-gray-800" : "bg-white"
             }`}
           >
@@ -112,9 +112,10 @@ const User = () => {
             </div>
           </div>
         </div>
+        <Link className="btn btn-info btn-wide my-5" to={"/"}>Go Home</Link>
       </div>
       <Helmet>
-        <title>{`${users.name} home`}</title>
+        <title>{`${users.name}`}</title>
       </Helmet>
     </>
   );
