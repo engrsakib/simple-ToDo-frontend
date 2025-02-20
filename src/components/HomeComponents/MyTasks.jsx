@@ -1,40 +1,45 @@
 import { useQuery } from "@tanstack/react-query";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"; // Updated import
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import TaskCard from "./TaskCard";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from './../../provider/AuthProvider';
 import axios from "axios";
 import useGetAllUsers from "../Dashboard/user/AllUsers/useGetAllUsers";
 
 const MyTasks = () => {
-  const{user, loadding, dark} = useContext(AuthContext);
-  const { users, refetch, isPending } = useGetAllUsers(user);
+  const { user, dark } = useContext(AuthContext);
+  const { users, isPending } = useGetAllUsers(user);
   const queryClient = useQueryClient();
 
+  const [isUpdating, setIsUpdating] = useState(false);  // Track if update is in progress
+
   // Fetch Tasks for different categories
-  const { data: todoTask = [] } = useQuery({
+  const { data: todoTask = [], refetch: refetchTodo } = useQuery({
     queryKey: ["todo-tasks", user?.email],
     queryFn: async () => {
       const { data } = await axios.get(`http://localhost:5000/add-task/getTodoTask/${users?.email}`);
       return data;
-    }
+    },
+    refetchOnWindowFocus: false,
   });
 
-  const { data: inProgressTask = [] } = useQuery({
+  const { data: inProgressTask = [], refetch: refetchInProgress } = useQuery({
     queryKey: ["in-progress-tasks", user?.email],
     queryFn: async () => {
       const { data } = await axios.get(`http://localhost:5000/add-task/getInProgressTask/${users?.email}`);
       return data;
-    }
+    },
+    refetchOnWindowFocus: false,
   });
 
-  const { data: doneTask = [] } = useQuery({
+  const { data: doneTask = [], refetch: refetchDone } = useQuery({
     queryKey: ["done-tasks", user?.email],
     queryFn: async () => {
       const { data } = await axios.get(`http://localhost:5000/add-task/getDoneTask/${users?.email}`);
       return data;
-    }
+    },
+    refetchOnWindowFocus: false,
   });
 
   // API call to update task category
@@ -46,27 +51,34 @@ const MyTasks = () => {
       queryClient.invalidateQueries(["todo-tasks"]);
       queryClient.invalidateQueries(["in-progress-tasks"]);
       queryClient.invalidateQueries(["done-tasks"]);
+      setIsUpdating(false);  // Set updating to false after mutation
     }
   });
 
   // Handle Drag & Drop
-  const handleDragEnd = (result) => {
+  const handleDragEnd = async (result) => {
     if (!result.destination) return;
+
+    setIsUpdating(true); // Start updating
 
     const { destination, draggableId } = result;
 
-    // Determine new category
     let newCategory = "";
     if (destination.droppableId === "todo") newCategory = "To-Do";
     if (destination.droppableId === "inProgress") newCategory = "In Progress";
     if (destination.droppableId === "done") newCategory = "Done";
 
-    // Update task category using API call
-    updateTaskCategory({ id: draggableId, category: newCategory });
+    // Update Task Category
+    await updateTaskCategory({ id: draggableId, category: newCategory });
+
+    // After updating, fetch the data again
+    refetchTodo();
+    refetchInProgress();
+    refetchDone();
   };
 
   return (
-    <section>
+    <section className={dark ? "bg-gray-900 text-white min-h-screen p-5" : "bg-white text-black min-h-screen p-5"}>
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
 
@@ -76,18 +88,14 @@ const MyTasks = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="bg-gray-300 p-4 rounded-lg min-h-screen"
+                className={dark ? "bg-gray-800 p-4 rounded-lg min-h-screen" : "bg-gray-300 p-4 rounded-lg min-h-screen"}
               >
                 <h1 className="text-center font-bold text-2xl mb-3">To Do</h1>
                 <div className="flex flex-col gap-5">
                   {todoTask?.map((task, index) => (
                     <Draggable key={task._id} draggableId={task._id} index={index}>
                       {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
+                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                           <TaskCard task={task} />
                         </div>
                       )}
@@ -105,18 +113,14 @@ const MyTasks = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="bg-gray-300 p-4 rounded-lg min-h-screen"
+                className={dark ? "bg-gray-800 p-4 rounded-lg min-h-screen" : "bg-gray-300 p-4 rounded-lg min-h-screen"}
               >
                 <h1 className="text-center font-bold text-2xl mb-3">In Progress</h1>
                 <div className="flex flex-col gap-5">
                   {inProgressTask?.map((task, index) => (
                     <Draggable key={task._id} draggableId={task._id} index={index}>
                       {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
+                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                           <TaskCard task={task} />
                         </div>
                       )}
@@ -134,18 +138,14 @@ const MyTasks = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="bg-gray-300 p-4 rounded-lg min-h-screen"
+                className={dark ? "bg-gray-800 p-4 rounded-lg min-h-screen" : "bg-gray-300 p-4 rounded-lg min-h-screen"}
               >
                 <h1 className="text-center font-bold text-2xl mb-3">Done</h1>
                 <div className="flex flex-col gap-5">
                   {doneTask?.map((task, index) => (
                     <Draggable key={task._id} draggableId={task._id} index={index}>
                       {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
+                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                           <TaskCard task={task} />
                         </div>
                       )}
@@ -161,6 +161,6 @@ const MyTasks = () => {
       </DragDropContext>
     </section>
   );
-}
+};
 
 export default MyTasks;
