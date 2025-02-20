@@ -1,26 +1,42 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../provider/AuthProvider";
+import useGetAllUsers from "../Dashboard/user/AllUsers/useGetAllUsers";
+import Loading from "../Loading";
 
 const AddTask = () => {
+  const { dark, user } = useContext(AuthContext);
+  const { users, refetch, isPending } = useGetAllUsers(user);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("To-Do");
-  
+
+  if (isPending) <Loading></Loading>;
+  // console.log(users)
   const maxTitleLength = 50;
   const maxDescLength = 200;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const timestamp = new Date().toISOString();
+    const [date, time] = timestamp.split("T");
+
     const newTask = {
       title,
       description,
       category,
-      timestamp: new Date().toISOString(),
+      date: date, 
+      time: time.split(".")[0], 
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
     };
-    
+
     try {
-      await axios.post("https://your-backend-api.com/tasks", newTask);
+      await axios.post("http://localhost:5000/tasks", newTask);
       Swal.fire("Task add successfully", "", "success");
       setTitle("");
       setDescription("");
@@ -40,7 +56,7 @@ const AddTask = () => {
           className="rounded-lg shadow-lg"
         />
       </div>
-      
+
       {/* Form Section */}
       <div className="w-full lg:w-2/3 p-6 bg-white shadow-lg rounded-lg">
         <h2 className="text-2xl font-bold mb-4">Add New Task</h2>
@@ -56,9 +72,11 @@ const AddTask = () => {
               className="w-full p-2 border rounded"
               required
             />
-            <p className="text-xs text-error">{maxTitleLength - title.length} characters left</p>
+            <p className="text-xs text-error">
+              {maxTitleLength - title.length} characters left
+            </p>
           </div>
-          
+
           {/* Description Input */}
           <div>
             <label className="block text-sm font-medium">Description</label>
@@ -68,9 +86,11 @@ const AddTask = () => {
               maxLength={maxDescLength}
               className="w-full p-2 border rounded"
             ></textarea>
-            <p className="text-xs text-error">{maxDescLength - description.length} characters left</p>
+            <p className="text-xs text-error">
+              {maxDescLength - description.length} characters left
+            </p>
           </div>
-          
+
           {/* Category Selection */}
           <div>
             <label className="block text-sm font-medium">Category</label>
@@ -84,9 +104,12 @@ const AddTask = () => {
               <option value="Done">Done</option>
             </select>
           </div>
-          
+
           {/* Submit Button */}
-          <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700">
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700"
+          >
             Add Task
           </button>
         </form>
