@@ -4,27 +4,33 @@ import { AuthContext } from "../provider/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Swal from "sweetalert2";
+import Loading from "./Loading";
 
 const Google = () => {
-  const { setUser, setLoadding, user } = useContext(AuthContext);
+  const { setUser, setLoadding, Loading, user } = useContext(AuthContext);
+  
 
   const navigate = useNavigate();
   const handleGoogleLogin = () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
 
+    if (Loading) {
+      return <Loading></Loading>;
+    }
+
     signInWithPopup(auth, provider)
       .then((result) => {
         const users = result.user;
 
         const name = users?.displayName;
-        const photo = users?.photoURL;
-        const mail = users?.email;
+        const photoUrl = users?.photoURL;
+        const email = users?.email;
 
         const newUser = {
           name,
-          mail,
-          photo,
+          email,
+          photoUrl,
           crateDate: users?.metadata?.creationTime,
           lastSignInDate: users?.metadata?.lastSignInTime,
         };

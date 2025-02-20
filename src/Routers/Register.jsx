@@ -600,9 +600,9 @@ const Register = () => {
               </div>
             </form>
 
-            {/* <div className="mt-4 text-center">
-          <Google />
-        </div> */}
+            <div className="mt-4 text-center">
+              <Google />
+            </div>
 
             <p className="mt-4 text-center">
               Already have an account?{" "}

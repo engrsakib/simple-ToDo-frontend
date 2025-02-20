@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet";
+import Google from "../components/Google";
 
 const LogIn = () => {
   const { dark, logInMail, setUser, user } = useContext(AuthContext);
@@ -163,7 +164,9 @@ const LogIn = () => {
               </button>
               
             </div>
+            <button><Google></Google></button>
           </div>
+          
         </div>
       </div>
       <Helmet>
