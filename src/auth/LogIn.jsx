@@ -146,12 +146,12 @@ const LogIn = () => {
           {/* Role Selection Buttons */}
           <div className="join mt-4">
             <button
-              className="btn join-item btn-info"
+              className="btn join-item btn-wide btn-info"
               onClick={() => handleAutoFill("admin")}
             >
-              Admin
+              user credentials
             </button>
-            <button
+            {/* <button
               className="btn join-item"
               onClick={() => handleAutoFill("user")}
             >
@@ -162,7 +162,7 @@ const LogIn = () => {
               onClick={() => handleAutoFill("volunteer")}
             >
               Volunteer
-            </button>
+            </button> */}
           </div>
           {/* <Google></Google> */}
         </div>
