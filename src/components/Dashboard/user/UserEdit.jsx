@@ -333,10 +333,7 @@ const UserEdit = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .put(
-            `https://blood-donation-server-liard.vercel.app/users/update/${users.email}`,
-            formData
-          )
+          .put(`http://localhost:5000/users/update/${users.email}`, formData)
           .then((response) => {
             Swal.fire(
               "Saved!",

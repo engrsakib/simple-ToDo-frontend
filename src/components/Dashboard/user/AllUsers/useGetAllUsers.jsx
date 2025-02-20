@@ -14,7 +14,7 @@ const useGetAllUsers = (user) => {
       }
       try {
         const response = await axios.get(
-          `https://blood-donation-server-liard.vercel.app/users/${user?.email}`
+          `http://localhost:5000/users/${user?.email}`
         );
         return response.data;
       } catch (error) {

@@ -51,7 +51,7 @@ const AllUsers = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://blood-donation-server-liard.vercel.app/users/${id}`, {
+        fetch(`http://localhost:5000/users/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -78,14 +78,11 @@ const AllUsers = () => {
       showCancelButton: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(
-          `https://blood-donation-server-liard.vercel.app/users/role/${id}`,
-          {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ role: result.value }),
-          }
-        )
+        fetch(`http://localhost:5000/users/role/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ role: result.value }),
+        })
           .then((res) => res.json())
           .then(() => {
             Swal.fire("Success!", "Role updated successfully.", "success");
@@ -107,14 +104,11 @@ const AllUsers = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         const newStatus = status === "active" ? "blocked" : "active";
-        fetch(
-          `https://blood-donation-server-liard.vercel.app/users/status/${id}`,
-          {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: newStatus }),
-          }
-        )
+        fetch(`http://localhost:5000/users/status/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: newStatus }),
+        })
           .then((res) => res.json())
           .then(() => {
             Swal.fire(
@@ -171,7 +165,7 @@ const AllUsers = () => {
                 <th className="py-3 px-6">Actions</th>
               </tr>
             </thead>
-            <tbody >
+            <tbody>
               {paginatedUsers.map((user, index) => (
                 <tr
                   key={user._id}

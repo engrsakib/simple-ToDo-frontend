@@ -15,7 +15,7 @@ const BlogsDetails = () => {
     queryFn: async () => {
       try {
         const response = await axios.get(
-          `https://blood-donation-server-liard.vercel.app/blogs/details/${id}`
+          `http://localhost:5000/blogs/details/${id}`
         );
         return response.data;
       } catch (error) {

@@ -27,7 +27,7 @@ const Details = () => {
     queryKey: ["donations", id],
     queryFn: async () => {
       const response = await axios.get(
-        `https://blood-donation-server-liard.vercel.app/donations/edit/${id}`
+        `http://localhost:5000/donations/edit/${id}`
       );
       return response.data;
     },
@@ -78,12 +78,9 @@ const Details = () => {
     });
     // console.log(newStatus)
     if (confirmed.isConfirmed) {
-      await axios.patch(
-        `https://blood-donation-server-liard.vercel.app/donations/${_id}`,
-        {
-          status: newStatus,
-        }
-      );
+      await axios.patch(`http://localhost:5000/donations/${_id}`, {
+        status: newStatus,
+      });
       refetch();
       setModalIsOpen(!modalIsOpen);
       Swal.fire("Success!", `Your contributions is recorded`, "success");

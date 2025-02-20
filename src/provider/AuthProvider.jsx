@@ -53,7 +53,7 @@ const AuthProvider = ({ children }) => {
       // console.log(Currentuser.email);
 
       // if (Currentuser?.email) {
-      //   fetch(`https://blood-donation-server-liard.vercel.app/users/${Currentuser?.email}`)
+      //   fetch(`http://localhost:5000/users/${Currentuser?.email}`)
       //     .then((res) => res.json())
       //     .then((data) => setUser(data));
 
@@ -69,20 +69,16 @@ const AuthProvider = ({ children }) => {
         };
 
         axios
-          .post(
-            "https://blood-donation-server-liard.vercel.app/jwt",
-            userToken,
-            {
-              withCredentials: true,
-            }
-          )
+          .post("http://localhost:5000/jwt", userToken, {
+            withCredentials: true,
+          })
           .then((data) => {
             console.log(data.data);
           });
       } else {
         axios
           .post(
-            "https://blood-donation-server-liard.vercel.app/logout",
+            "http://localhost:5000/logout",
             {},
             {
               withCredentials: true,

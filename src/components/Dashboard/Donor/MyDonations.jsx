@@ -22,7 +22,7 @@ const MyDonations = () => {
     queryKey: ["donations", email],
     queryFn: async () => {
       const response = await axios.get(
-        `https://blood-donation-server-liard.vercel.app/donations/${email}`
+        `http://localhost:5000/donations/${email}`
       );
       return response.data;
     },
@@ -52,12 +52,9 @@ const MyDonations = () => {
     });
 
     if (confirmed.isConfirmed) {
-      await axios.patch(
-        `https://blood-donation-server-liard.vercel.app/donations/${id}`,
-        {
-          status: newStatus,
-        }
-      );
+      await axios.patch(`http://localhost:5000/donations/${id}`, {
+        status: newStatus,
+      });
       refetch();
       Swal.fire("Success!", `Status updated to ${newStatus}.`, "success");
     }
@@ -88,9 +85,7 @@ const MyDonations = () => {
     });
 
     if (confirmed.isConfirmed) {
-      await axios.delete(
-        `https://blood-donation-server-liard.vercel.app/donations/${id}`
-      );
+      await axios.delete(`http://localhost:5000/donations/${id}`);
       refetch();
       Swal.fire("Deleted!", "Donation request has been deleted.", "success");
     }

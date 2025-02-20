@@ -30,7 +30,7 @@ const Google = () => {
         };
 
         if (!user || user.mail !== users.email) {
-          fetch("https://blood-donation-server-liard.vercel.app/users", {
+          fetch("http://localhost:5000/users", {
             method: "POST",
             headers: {
               "content-type": "application/json",

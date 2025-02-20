@@ -21,9 +21,7 @@ const Blogs = () => {
     queryKey: ["home-blogs"],
     queryFn: async () => {
       try {
-        const response = await axios.get(
-          "https://blood-donation-server-liard.vercel.app/blogs/status"
-        );
+        const response = await axios.get("http://localhost:5000/blogs/status");
         return response.data;
       } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -135,7 +133,9 @@ const Blogs = () => {
                   onClick={() => {
                     GoDetails(blog?._id);
                   }}
-                  className={`${!user && "hidden"} btn btn-info btn-outline btn-link btn-neutral text-white`}
+                  className={`${
+                    !user && "hidden"
+                  } btn btn-info btn-outline btn-link btn-neutral text-white`}
                 >
                   read more
                 </button>

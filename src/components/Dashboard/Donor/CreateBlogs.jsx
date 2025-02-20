@@ -80,7 +80,7 @@ const CreateBlogs = () => {
 
     try {
       const response = await axios.post(
-        "https://blood-donation-server-liard.vercel.app/blogs",
+        "http://localhost:5000/blogs",
         blogData
       );
       if (response) {

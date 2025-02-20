@@ -315,10 +315,10 @@ const Search = () => {
       selectedBloodGroup,
       currentPage,
     ],
-    
+
     queryFn: async () => {
       const response = await axios.post(
-        `https://blood-donation-server-liard.vercel.app/all-donations/filter`,
+        `http://localhost:5000/all-donations/filter`,
         {
           bloodGroup: selectedBloodGroup,
           district: selectedDistrict,

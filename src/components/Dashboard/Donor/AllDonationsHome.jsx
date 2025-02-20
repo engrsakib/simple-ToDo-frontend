@@ -24,9 +24,7 @@ const AllDonationsHome = () => {
   } = useQuery({
     queryKey: ["donations"],
     queryFn: async () => {
-      const response = await axios.get(
-        `https://blood-donation-server-liard.vercel.app/all-donations`
-      );
+      const response = await axios.get(`http://localhost:5000/all-donations`);
       return response.data;
     },
   });
@@ -102,9 +100,10 @@ const AllDonationsHome = () => {
                     <td>{donation?.district}</td>
                     <td className="flex flex-wrap gap-2">
                       <button
-                        className={`btn btn-sm btn-primary ${!user && "hidden"}`}
+                        className={`btn btn-sm btn-primary ${
+                          !user && "hidden"
+                        }`}
                         onClick={() => handleDetailsClick(donation._id)}
-                        
                       >
                         Details
                       </button>

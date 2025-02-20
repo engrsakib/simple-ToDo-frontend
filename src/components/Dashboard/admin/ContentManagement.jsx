@@ -32,9 +32,7 @@ const ContentManagement = () => {
     queryKey: ["blogs"],
     queryFn: async () => {
       try {
-        const response = await axios.get(
-          "https://blood-donation-server-liard.vercel.app/blogs"
-        );
+        const response = await axios.get("http://localhost:5000/blogs");
         return response.data;
       } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -67,7 +65,11 @@ const ContentManagement = () => {
   // Handle delete blog
   const handleDelete = (id) => {
     if (users?.role !== "admin") {
-      return Swal.fire("Error", "Only admin can perform this operation", "error");
+      return Swal.fire(
+        "Error",
+        "Only admin can perform this operation",
+        "error"
+      );
     }
     Swal.fire({
       title: "Are you sure?",
@@ -78,7 +80,7 @@ const ContentManagement = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`https://blood-donation-server-liard.vercel.app/blogs/${id}`)
+          .delete(`http://localhost:5000/blogs/${id}`)
           .then(() => {
             Swal.fire("Deleted!", "Blog has been deleted.", "success");
             refetch();
@@ -94,7 +96,11 @@ const ContentManagement = () => {
   // Handle toggle status
   const handleToggleStatus = (id, status) => {
     if (users?.role !== "admin") {
-      return Swal.fire("Error", "Only admin can perform this operation", "error");
+      return Swal.fire(
+        "Error",
+        "Only admin can perform this operation",
+        "error"
+      );
     }
     Swal.fire({
       title: "Are you sure?",
@@ -109,7 +115,7 @@ const ContentManagement = () => {
         const newStatus = status === "published" ? "draft" : "published";
 
         axios
-          .patch(`https://blood-donation-server-liard.vercel.app/blogs/${id}`, {
+          .patch(`http://localhost:5000/blogs/${id}`, {
             status: newStatus,
           })
           .then(() => {

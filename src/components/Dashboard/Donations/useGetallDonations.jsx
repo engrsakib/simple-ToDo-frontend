@@ -9,9 +9,7 @@ const useGetAllDonations = (email) => {
   } = useQuery({
     queryKey: ["donations", email], // Dynamic query key with email
     queryFn: async () => {
-      const response = await axios.get(
-        `https://blood-donation-server-liard.vercel.app/donations`
-      );
+      const response = await axios.get(`http://localhost:5000/donations`);
       return response.data;
     },
   });

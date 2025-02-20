@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 import Select from "react-select";
+import { Helmet } from "react-helmet";
 
 // District and Upazila Data (same as before)
 const districtUpazilas = {
@@ -302,7 +303,7 @@ const Register = () => {
     district: "",
     upazila: "",
     status: "active",
-    role: "donor",
+    role: "user",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -401,10 +402,7 @@ const Register = () => {
 
           // Save user data to database
           axios
-            .post(
-              "https://blood-donation-server-liard.vercel.app/users",
-              dataToSend
-            )
+            .post("http://localhost:5000/users", dataToSend)
             .then(() => {
               Swal.fire(
                 "Success!",
@@ -429,188 +427,199 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row justify-evenly items-center min-h-screen bg-gray-100 p-4">
-      {/* left side */}
-      <div className="hidden lg:flex w-1/2 justify-center">
+    <>
+      <div className="flex flex-col lg:flex-row justify-evenly items-center min-h-screen bg-gray-100 p-4">
+        {/* left side */}
+        <div className="hidden lg:flex w-1/2 justify-center">
           <img
             src="https://i.ibb.co.com/0v7Z4ps/pros-cons-concept-illustration-114360-14879.jpg"
             alt="Register Illustration"
             className="w-full rounded-lg shadow-lg"
           />
         </div>
-      {/* right side */}
-      <div className="flex flex-col justify-center items-center min-h-screen">
-      <div
-        className={`${
-          dark ? "border border-yellow-300" : "bg-white"
-        } p-8 rounded-lg shadow-md max-w-md w-full`}
-      >
-        <h2
-          className={`text-center text-xl font-bold mb-6 ${
-            dark ? "text-gray-200" : "text-gray-800"
-          }`}
-        >
-          Register
-        </h2>
-        <form onSubmit={handleSubmit}>
-          {/* Name */}
-          <div className="mb-4">
-            <input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              className="input input-bordered w-full"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* Email */}
-          <div className="mb-4">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              className="input input-bordered w-full"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* Avatar */}
-          <div className="mb-4">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleAvatarChange}
-              className="file-input file-input-bordered w-full"
-            />
-            {imageError && <p className="text-red-500 text-sm">{imageError}</p>}
-            {imagePreview && (
-              <img
-                src={imagePreview}
-                alt="Avatar Preview"
-                className="mt-2 w-32 h-32 object-cover rounded-full"
-              />
-            )}
-          </div>
-
-          {/* Blood Group */}
-          <div className="mb-4">
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              className="input input-bordered w-full"
-              required
+        {/* right side */}
+        <div className="flex flex-col justify-center items-center min-h-screen">
+          <div
+            className={`${
+              dark ? "border border-yellow-300" : "bg-white"
+            } p-8 rounded-lg shadow-md max-w-md w-full`}
+          >
+            <h2
+              className={`text-center text-xl font-bold mb-6 ${
+                dark ? "text-gray-200" : "text-gray-800"
+              }`}
             >
-              <option value="">Select Gender</option>
-              {["Male", "Female"].map(
-                (group) => (
-                  <option key={group} value={group}>
-                    {group}
-                  </option>
-                )
-              )}
-            </select>
-          </div>
-
-          {/* District */}
-          <div className="mb-4">
-            <Select
-              options={districts.map((district) => ({
-                value: district,
-                label: district,
-              }))}
-              onChange={(selected) =>
-                handleChange({
-                  target: { name: "district", value: selected.value },
-                })
-              }
-              placeholder="Select District"
-              className="w-full"
-            />
-          </div>
-
-          {/* Upazila */}
-          <div className="mb-4">
-            <select
-              name="upazila"
-              value={formData.upazila}
-              onChange={handleChange}
-              className="input input-bordered w-full"
-              required
-            >
-              <option value="">Select Upazila</option>
-              {upazilas.map((upazila) => (
-                <option key={upazila} value={upazila}>
-                  {upazila}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Password */}
-          <div className="mb-4">
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                placeholder="Password"
-                className="input input-bordered w-full"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              <div
-                className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
-                onClick={() => setShowPassword((prev) => !prev)}
-              >
-                {showPassword ? <AiFillEye /> : <AiFillEyeInvisible />}
+              Register
+            </h2>
+            <form onSubmit={handleSubmit}>
+              {/* Name */}
+              <div className="mb-4">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Full Name"
+                  className="input input-bordered w-full"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
               </div>
-            </div>
-          </div>
 
-          {/* Confirm Password */}
-          <div className="mb-4">
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              className="input input-bordered w-full"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-          </div>
+              {/* Email */}
+              <div className="mb-4">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  className="input input-bordered w-full"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-          {passwordError && (
-            <p className="text-red-500 text-sm">{passwordError}</p>
-          )}
+              {/* Avatar */}
+              <div className="mb-4">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                  className="file-input file-input-bordered w-full"
+                />
+                {imageError && (
+                  <p className="text-red-500 text-sm">{imageError}</p>
+                )}
+                {imagePreview && (
+                  <img
+                    src={imagePreview}
+                    alt="Avatar Preview"
+                    className="mt-2 w-32 h-32 object-cover rounded-full"
+                  />
+                )}
+              </div>
 
-          <div className="mt-6">
-            <button
-              type="submit"
-              className="btn btn-primary w-full"
-              disabled={loading}
-            >
-              {loading ? "Registering..." : "Register"}
-            </button>
-          </div>
-        </form>
+              {/* Blood Group */}
+              <div className="mb-4">
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  className="input input-bordered w-full"
+                  required
+                >
+                  <option value="">Select Gender</option>
+                  {["Male", "Female"].map((group) => (
+                    <option key={group} value={group}>
+                      {group}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-        {/* <div className="mt-4 text-center">
+              {/* District */}
+              <div className="mb-4">
+                <Select
+                  options={districts.map((district) => ({
+                    value: district,
+                    label: district,
+                  }))}
+                  onChange={(selected) =>
+                    handleChange({
+                      target: { name: "district", value: selected.value },
+                    })
+                  }
+                  placeholder="Select District"
+                  className="w-full"
+                />
+              </div>
+
+              {/* Upazila */}
+              <div className="mb-4">
+                <select
+                  name="upazila"
+                  value={formData.upazila}
+                  onChange={handleChange}
+                  className="input input-bordered w-full"
+                  required
+                >
+                  <option value="">Select Upazila</option>
+                  {upazilas.map((upazila) => (
+                    <option key={upazila} value={upazila}>
+                      {upazila}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Password */}
+              <div className="mb-4">
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Password"
+                    className="input input-bordered w-full"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                  />
+                  <div
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  >
+                    {showPassword ? <AiFillEye /> : <AiFillEyeInvisible />}
+                  </div>
+                </div>
+              </div>
+
+              {/* Confirm Password */}
+              <div className="mb-4">
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  className="input input-bordered w-full"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              {passwordError && (
+                <p className="text-red-500 text-sm">{passwordError}</p>
+              )}
+
+              <div className="mt-6">
+                <button
+                  type="submit"
+                  className="btn btn-primary w-full"
+                  disabled={loading}
+                >
+                  {loading ? "Registering..." : "Register"}
+                </button>
+              </div>
+            </form>
+
+            {/* <div className="mt-4 text-center">
           <Google />
         </div> */}
 
-        <p className="mt-4 text-center">
-          Already have an account? <Link to="/auth/login"><span className="link link-info text-blue-500 hover:underline font-semibold">Login</span></Link>
-        </p>
+            <p className="mt-4 text-center">
+              Already have an account?{" "}
+              <Link to="/auth/login">
+                <span className="link link-info text-blue-500 hover:underline font-semibold">
+                  Login
+                </span>
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
-    </div>
+
+      <Helmet>
+        <title>Register</title>
+      </Helmet>
+    </>
   );
 };
 
