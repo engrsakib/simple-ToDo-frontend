@@ -6,6 +6,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from './../../provider/AuthProvider';
 import axios from "axios";
 import useGetAllUsers from "../Dashboard/user/AllUsers/useGetAllUsers";
+import Loading from "../Loading";
 
 const MyTasks = () => {
   const { user, dark } = useContext(AuthContext);
@@ -13,7 +14,9 @@ const MyTasks = () => {
   const queryClient = useQueryClient();
 
   const [isUpdating, setIsUpdating] = useState(false);  // Track if update is in progress
-
+  if(isUpdating){
+    <Loading></Loading>
+  }
   // Fetch Tasks for different categories
   const { data: todoTask = [], refetch: refetchTodo } = useQuery({
     queryKey: ["todo-tasks", user?.email],

@@ -9,7 +9,9 @@ const TaskCard = ({ task }) => {
   if (!task) return null;
 
   const { title, category, description } = task;
-
+  const handleDelete = (id) => {
+    console.log( id);
+  };
   return (
     <div
       className={`p-5 rounded-2xl shadow-lg transition-all duration-300 cursor-pointer border 
@@ -32,6 +34,7 @@ const TaskCard = ({ task }) => {
           <button
             className="p-2 rounded-full text-xl transition-all duration-200 hover:scale-110 
             bg-gray-600 text-red-400 hover:bg-red-600 hover:text-white"
+            onClick={() => handleDelete(task._id)}
           >
             <MdDelete />
           </button>
