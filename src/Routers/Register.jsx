@@ -402,7 +402,10 @@ const Register = () => {
 
           // Save user data to database
           axios
-            .post("http://localhost:5000/users", dataToSend)
+            .post(
+              "https://todo-server-omega-ivory.vercel.app/users",
+              dataToSend
+            )
             .then(() => {
               Swal.fire(
                 "Success!",

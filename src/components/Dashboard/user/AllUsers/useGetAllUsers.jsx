@@ -14,7 +14,7 @@ const useGetAllUsers = (user) => {
       }
       try {
         const response = await axios.get(
-          `http://localhost:5000/users/${user?.email}`
+          `https://todo-server-omega-ivory.vercel.app/users/${user?.email}`
         );
         return response.data;
       } catch (error) {

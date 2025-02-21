@@ -11,7 +11,7 @@ const EditTask = () => {
   const location = useLocation();
   const { dark } = useContext(AuthContext);
   const taskId = location?.state?.taskId;
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   // State for task fields
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -22,7 +22,7 @@ const EditTask = () => {
     queryKey: ["tasks-edit", taskId],
     queryFn: async () => {
       const { data } = await axios.get(
-        `http://localhost:5000/edit-task/${taskId}`
+        `https://todo-server-omega-ivory.vercel.app/edit-task/${taskId}`
       );
       return data;
     },
@@ -57,12 +57,12 @@ const EditTask = () => {
 
     try {
       await axios.put(
-        `http://localhost:5000/update-task/${taskId}`,
+        `https://todo-server-omega-ivory.vercel.app/update-task/${taskId}`,
         updatedTask
       );
       Swal.fire("Task updated successfully", "", "success");
       refetch();
-        navigate("/");
+      navigate("/");
     } catch (error) {
       console.error("Error updating task:", error);
       Swal.fire("Error updating task", "", "error");

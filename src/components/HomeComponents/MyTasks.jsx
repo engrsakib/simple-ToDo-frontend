@@ -22,7 +22,7 @@ const MyTasks = () => {
     queryKey: ["todo-tasks", user?.email],
     queryFn: async () => {
       const { data } = await axios.get(
-        `http://localhost:5000/add-task/getTodoTask/${users?.email}`
+        `https://todo-server-omega-ivory.vercel.app/add-task/getTodoTask/${users?.email}`
       );
       return data;
     },
@@ -33,7 +33,7 @@ const MyTasks = () => {
     queryKey: ["in-progress-tasks", user?.email],
     queryFn: async () => {
       const { data } = await axios.get(
-        `http://localhost:5000/add-task/getInProgressTask/${users?.email}`
+        `https://todo-server-omega-ivory.vercel.app/add-task/getInProgressTask/${users?.email}`
       );
       return data;
     },
@@ -44,7 +44,7 @@ const MyTasks = () => {
     queryKey: ["done-tasks", user?.email],
     queryFn: async () => {
       const { data } = await axios.get(
-        `http://localhost:5000/add-task/getDoneTask/${users?.email}`
+        `https://todo-server-omega-ivory.vercel.app/add-task/getDoneTask/${users?.email}`
       );
       return data;
     },
@@ -54,9 +54,12 @@ const MyTasks = () => {
   // API call to update task category
   const { mutateAsync: updateTaskCategory } = useMutation({
     mutationFn: async ({ id, category }) => {
-      await axios.patch(`http://localhost:5000/add-task/updateCategory/${id}`, {
-        category,
-      });
+      await axios.patch(
+        `https://todo-server-omega-ivory.vercel.app/add-task/updateCategory/${id}`,
+        {
+          category,
+        }
+      );
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["todo-tasks"]);
@@ -65,8 +68,6 @@ const MyTasks = () => {
       setIsUpdating(false); // Set updating to false after mutation
     },
   });
-
-  
 
   // Handle Drag & Drop
   const handleDragEnd = async (result) => {
@@ -89,7 +90,7 @@ const MyTasks = () => {
     refetchInProgress();
     refetchDone();
   };
-  
+
   return (
     <section
       className={

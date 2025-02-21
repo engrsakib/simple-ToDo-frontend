@@ -21,7 +21,7 @@ const TaskCard = ({ task }) => {
   const deleteTaskMutation = useMutation({
     mutationFn: async () => {
       return await axios.delete(
-        `http://localhost:5000/add-task/deleteTask/${taskId}`
+        `https://todo-server-omega-ivory.vercel.app/add-task/deleteTask/${taskId}`
       );
     },
     onSuccess: () => {

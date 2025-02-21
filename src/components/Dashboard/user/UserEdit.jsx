@@ -333,7 +333,10 @@ const UserEdit = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .put(`http://localhost:5000/users/update/${users.email}`, formData)
+          .put(
+            `https://todo-server-omega-ivory.vercel.app/users/update/${users.email}`,
+            formData
+          )
           .then((response) => {
             Swal.fire(
               "Saved!",

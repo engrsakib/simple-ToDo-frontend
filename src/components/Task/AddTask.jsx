@@ -27,8 +27,8 @@ const AddTask = () => {
       title,
       description,
       category,
-      date: date, 
-      time: time.split(".")[0], 
+      date: date,
+      time: time.split(".")[0],
       user: {
         id: users._id,
         name: users.name,
@@ -37,7 +37,10 @@ const AddTask = () => {
     };
 
     try {
-      await axios.post("http://localhost:5000/tasks", newTask);
+      await axios.post(
+        "https://todo-server-omega-ivory.vercel.app/tasks",
+        newTask
+      );
       Swal.fire("Task add successfully", "", "success");
       setTitle("");
       setDescription("");
@@ -49,77 +52,77 @@ const AddTask = () => {
 
   return (
     <>
-    <div className="flex mt-9 flex-col lg:flex-row items-center lg:items-start p-6">
-      {/* Image Section */}
-      <div className="w-full lg:w-1/3 mb-6 lg:mb-0">
-        <img
-          src="https://i.ibb.co/Jjpxh81Y/checklist-concept-illustration-114360-339.jpg"
-          alt="Task Illustration"
-          className="rounded-lg shadow-lg"
-        />
-      </div>
+      <div className="flex mt-9 flex-col lg:flex-row items-center lg:items-start p-6">
+        {/* Image Section */}
+        <div className="w-full lg:w-1/3 mb-6 lg:mb-0">
+          <img
+            src="https://i.ibb.co/Jjpxh81Y/checklist-concept-illustration-114360-339.jpg"
+            alt="Task Illustration"
+            className="rounded-lg shadow-lg"
+          />
+        </div>
 
-      {/* Form Section */}
-      <div className="w-full lg:w-2/3 p-6 bg-white shadow-lg rounded-lg">
-        <h2 className="text-2xl font-bold mb-4">Add New Task</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Title Input */}
-          <div>
-            <label className="block text-sm font-medium">Title</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              maxLength={maxTitleLength}
-              className="w-full p-2 border rounded"
-              required
-            />
-            <p className="text-xs text-error">
-              {maxTitleLength - title.length} characters left
-            </p>
-          </div>
+        {/* Form Section */}
+        <div className="w-full lg:w-2/3 p-6 bg-white shadow-lg rounded-lg">
+          <h2 className="text-2xl font-bold mb-4">Add New Task</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Title Input */}
+            <div>
+              <label className="block text-sm font-medium">Title</label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                maxLength={maxTitleLength}
+                className="w-full p-2 border rounded"
+                required
+              />
+              <p className="text-xs text-error">
+                {maxTitleLength - title.length} characters left
+              </p>
+            </div>
 
-          {/* Description Input */}
-          <div>
-            <label className="block text-sm font-medium">Description</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              maxLength={maxDescLength}
-              className="w-full p-2 border rounded"
-            ></textarea>
-            <p className="text-xs text-error">
-              {maxDescLength - description.length} characters left
-            </p>
-          </div>
+            {/* Description Input */}
+            <div>
+              <label className="block text-sm font-medium">Description</label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                maxLength={maxDescLength}
+                className="w-full p-2 border rounded"
+              ></textarea>
+              <p className="text-xs text-error">
+                {maxDescLength - description.length} characters left
+              </p>
+            </div>
 
-          {/* Category Selection */}
-          <div>
-            <label className="block text-sm font-medium">Category</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full p-2 border rounded"
+            {/* Category Selection */}
+            <div>
+              <label className="block text-sm font-medium">Category</label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full p-2 border rounded"
+              >
+                <option value="To-Do">To-Do</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Done">Done</option>
+              </select>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700"
             >
-              <option value="To-Do">To-Do</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Done">Done</option>
-            </select>
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700"
-          >
-            Add Task
-          </button>
-        </form>
+              Add Task
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
-    <Helmet>
+      <Helmet>
         <title>Add Task - TaskStorm</title>
-    </Helmet>
+      </Helmet>
     </>
   );
 };
