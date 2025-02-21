@@ -74,7 +74,7 @@ const Header = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full transition-transform duration-300 p-3 shadow-md z-50 ${
+      className={`fixed top-0 overflow-x-hidden left-0 w-full transition-transform duration-300 p-3 shadow-md z-50 ${
         visible ? "translate-y-0" : "-translate-y-full"
       } ${dark ? "bg-gray-900 text-gray-50" : "bg-gray-100 text-gray-900"}`}
     >
