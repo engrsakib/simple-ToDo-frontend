@@ -10,6 +10,7 @@ import Dashboard from "../components/Dashboard/Dashboard";
 import User from "../components/Dashboard/user/User";
 import UserEdit from "../components/Dashboard/user/UserEdit";
 import AddTask from "../components/Task/AddTask";
+import EditTask from "../components/Task/EditTask";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/add-Task",
         element: <Privete><AddTask></AddTask></Privete>,
+      },
+      {
+        path: "/edit-Task",
+        element: <Privete><EditTask></EditTask></Privete>,
       },
       
     ],

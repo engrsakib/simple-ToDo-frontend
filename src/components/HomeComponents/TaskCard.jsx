@@ -7,15 +7,17 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { IoTime } from "react-icons/io5";
 import { BsCalendarDateFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 const TaskCard = ({ task }) => {
   const { dark } = useContext(AuthContext);
   if (!task) return null;
+  const navigate = useNavigate();
 
   const { title, category, description, _id: taskId, time, date } = task;
   const queryClient = useQueryClient();
 
-  // useMutation ফাংশন কম্পোনেন্টের বাইরে ডিক্লেয়ার করা হলো
+  // useMutation
   const deleteTaskMutation = useMutation({
     mutationFn: async () => {
       return await axios.delete(
@@ -57,6 +59,41 @@ const TaskCard = ({ task }) => {
     }
   };
 
+  // Edit Task
+  const handleEdit = (taskId) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "Are you sure you want to edit this file?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          navigate("/edit-task", { state: { taskId } });
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire({
+            title: "Cancelled",
+            text: "Your imaginary file is safe ",
+            icon: "error",
+          });
+        }
+      });
+  };
+
   return (
     <div
       className={`p-5 rounded-2xl shadow-lg transition-all duration-300 cursor-pointer border 
@@ -94,6 +131,7 @@ const TaskCard = ({ task }) => {
             <MdDelete />
           </button>
           <button
+            onClick={() => handleEdit(taskId)}
             className="p-2 rounded-full text-xl transition-all duration-200 hover:scale-110 
             bg-gray-600 text-blue-400 hover:bg-blue-600 hover:text-white"
           >
