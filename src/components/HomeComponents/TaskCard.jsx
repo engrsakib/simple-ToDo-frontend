@@ -5,18 +5,22 @@ import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { IoTime } from "react-icons/io5";
+import { BsCalendarDateFill } from "react-icons/bs";
 
 const TaskCard = ({ task }) => {
   const { dark } = useContext(AuthContext);
   if (!task) return null;
 
-  const { title, category, description, _id: taskId } = task;
+  const { title, category, description, _id: taskId, time, date } = task;
   const queryClient = useQueryClient();
 
   // useMutation ফাংশন কম্পোনেন্টের বাইরে ডিক্লেয়ার করা হলো
   const deleteTaskMutation = useMutation({
     mutationFn: async () => {
-      return await axios.delete(`http://localhost:5000/add-task/deleteTask/${taskId}`);
+      return await axios.delete(
+        `http://localhost:5000/add-task/deleteTask/${taskId}`
+      );
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["todo-tasks"]);
@@ -56,7 +60,11 @@ const TaskCard = ({ task }) => {
   return (
     <div
       className={`p-5 rounded-2xl shadow-lg transition-all duration-300 cursor-pointer border 
-      ${dark ? "bg-gray-800 border-gray-700 text-white" : "bg-gray-200 border-gray-300 text-black"} 
+      ${
+        dark
+          ? "bg-gray-800 border-gray-700 text-white"
+          : "bg-gray-200 border-gray-300 text-black"
+      } 
       hover:scale-105 hover:shadow-2xl`}
     >
       <h1 className="font-bold text-2xl mb-2 truncate">{title}</h1>
@@ -66,7 +74,13 @@ const TaskCard = ({ task }) => {
       <div className="flex justify-between items-center">
         <button
           className={`py-1 px-5 rounded-3xl font-semibold text-white text-sm 
-          ${category === "To-Do" ? "bg-green-500" : category === "In Progress" ? "bg-orange-500" : "bg-blue-500"}`}
+          ${
+            category === "To-Do"
+              ? "bg-green-500"
+              : category === "In Progress"
+              ? "bg-orange-500"
+              : "bg-blue-500"
+          }`}
         >
           {category}
         </button>
@@ -86,6 +100,15 @@ const TaskCard = ({ task }) => {
             <FaPencilAlt />
           </button>
         </div>
+      </div>
+      <div className="flex justify-between items-center mt-4">
+        <p className="text-sm opacity-80 mb-4 flex items-center gap-2">
+          {" "}
+          <BsCalendarDateFill /> {date}
+        </p>
+        <p className="text-sm opacity-80 mb-4 flex items-center gap-2">
+          <IoTime /> {time}
+        </p>
       </div>
     </div>
   );
