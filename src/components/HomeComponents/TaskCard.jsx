@@ -4,15 +4,40 @@ import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const TaskCard = ({ task, refetchDone, refetchInProgress, refetchTodo }) => {
+const TaskCard = ({ task }) => {
   const { dark } = useContext(AuthContext);
   if (!task) return null;
 
-  const { title, category, description } = task;
+  const { title, category, description, _id: taskId } = task;
+  const queryClient = useQueryClient();
 
-  const handleDelete = async (taskId) => {
-    // SweetAlert
+  // useMutation ফাংশন কম্পোনেন্টের বাইরে ডিক্লেয়ার করা হলো
+  const deleteTaskMutation = useMutation({
+    mutationFn: async () => {
+      return await axios.delete(`http://localhost:5000/add-task/deleteTask/${taskId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["todo-tasks"]);
+      queryClient.invalidateQueries(["in-progress-tasks"]);
+      queryClient.invalidateQueries(["done-tasks"]);
+      Swal.fire({
+        title: "Deleted!",
+        text: "Your task has been deleted.",
+        icon: "success",
+      });
+    },
+    onError: () => {
+      Swal.fire({
+        title: "Error!",
+        text: "There was an error deleting the task.",
+        icon: "error",
+      });
+    },
+  });
+
+  const handleDelete = async () => {
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -24,38 +49,14 @@ const TaskCard = ({ task, refetchDone, refetchInProgress, refetchTodo }) => {
     });
 
     if (result.isConfirmed) {
-      try {
-        // axios.delete
-        const response = await axios.delete(
-          `http://localhost:5000/add-task/deleteTask/${taskId}`
-        );
-
-        if (response.status === 200) {
-          // refetch all categories after deleting
-         
-
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your task has been deleted.",
-            icon: "success",
-          });
-        }
-      } catch (error) {
-        Swal.fire({
-          title: "Error!",
-          text: "There was an error deleting the task.",
-          icon: "error",
-        });
-      }
+      await deleteTaskMutation.mutateAsync();
     }
   };
 
   return (
     <div
       className={`p-5 rounded-2xl shadow-lg transition-all duration-300 cursor-pointer border 
-      ${dark
-        ? "bg-gray-800 border-gray-700 text-white"
-        : "bg-gray-200 border-gray-300 text-black"} 
+      ${dark ? "bg-gray-800 border-gray-700 text-white" : "bg-gray-200 border-gray-300 text-black"} 
       hover:scale-105 hover:shadow-2xl`}
     >
       <h1 className="font-bold text-2xl mb-2 truncate">{title}</h1>
@@ -65,11 +66,7 @@ const TaskCard = ({ task, refetchDone, refetchInProgress, refetchTodo }) => {
       <div className="flex justify-between items-center">
         <button
           className={`py-1 px-5 rounded-3xl font-semibold text-white text-sm 
-          ${category === "To-Do"
-            ? "bg-green-500"
-            : category === "In Progress"
-            ? "bg-orange-500"
-            : "bg-blue-500"}`}
+          ${category === "To-Do" ? "bg-green-500" : category === "In Progress" ? "bg-orange-500" : "bg-blue-500"}`}
         >
           {category}
         </button>
@@ -78,7 +75,7 @@ const TaskCard = ({ task, refetchDone, refetchInProgress, refetchTodo }) => {
           <button
             className="p-2 rounded-full text-xl transition-all duration-200 hover:scale-110 
             bg-gray-600 text-red-400 hover:bg-red-600 hover:text-white"
-            onClick={() => handleDelete(task._id)}
+            onClick={handleDelete}
           >
             <MdDelete />
           </button>
