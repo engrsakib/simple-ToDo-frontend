@@ -5,6 +5,12 @@
 ## 🔹 Short Description  
 TaskStorm is a full-featured task management application where users can add, edit, delete, and reorder tasks using a drag-and-drop interface. The frontend is built with React.js, Tailwind CSS, and DaisyUI for a clean and modern UI experience. The app ensures real-time updates and seamless user interactions.  
 
+## 📺 Project Overview Video
+[![TaskStorm - Task Management App](https://img.youtube.com/vi/LrYQfnD70tA/0.jpg)](https://youtu.be/LrYQfnD70tA)
+
+🔗 **Watch the full demo here:** [TaskStorm - Task Management App](https://youtu.be/LrYQfnD70tA)
+
+
 ## 🔹 Live Links  
 - **Live App:** [TaskStorm Live](https://engrsakib-todo-applications.surge.sh/)  
 - **Frontend Repository:** [GitHub - Frontend](https://github.com/engrsakib/simple-ToDo-frontend)  
