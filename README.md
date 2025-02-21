@@ -1,125 +1,81 @@
-# BloodBridge  
+### TaskStorm Frontend - README  
 
-A web platform dedicated to managing Blood donations and functionality. You can post if you need blood or wish to donate. BloodBridge seamlessly connects donors, recipients, and volunteers.  
+# TaskStorm Frontend  
 
-[![Watch the video](https://img.youtube.com/vi/BlnfVZZfuL4/maxresdefault.jpg)](https://www.youtube.com/watch?v=BlnfVZZfuL4)
-  
----
+## 🔹 Short Description  
+TaskStorm is a full-featured task management application where users can add, edit, delete, and reorder tasks using a drag-and-drop interface. The frontend is built with React.js, Tailwind CSS, and DaisyUI for a clean and modern UI experience. The app ensures real-time updates and seamless user interactions.  
 
-## 🔗 Live Site  
-[Visit Sakib BloodBridge](https://engrsakib-blood-donations-project.netlify.app/)  
+## 🔹 Live Links  
+- **Live App:** [TaskStorm Live](https://engrsakib-todo-applications.surge.sh/)  
+- **Frontend Repository:** [GitHub - Frontend](https://github.com/engrsakib/simple-ToDo-frontend)  
+- **Backend Repository:** [GitHub - Backend](https://github.com/engrsakib/simple-ToDo-Backend)  
+- **Website:** [Md. Nazmus Sakib](https://www.engrsakib.com/)  
+- **Contact:** info@engrsakib.com  
 
-## 🔗 GitHub Repositories  
-- **Server Repository:** [server-side-engrsakib](https://github.com/engrsakib/blood-donor-simple-project-server)  
-- **Client Repository:** [client-side-engrsakib](https://github.com/engrsakib/blood-donor-simple-project-client-side)  
+## 🔹 Technologies Used  
+- **Frontend:** React.js, Tailwind CSS, DaisyUI  
+- **State Management:** React Query  
+- **Drag & Drop:** React Beautiful DnD, Hello Pangea DnD  
+- **Authentication:** Firebase  
+- **Routing:** React Router  
+- **Animations & UI Enhancements:** Lottie React, React Awesome Reveal, React Icons  
+- **Date Handling:** Date FNS  
+- **API Requests:** Axios  
 
----
+## 🔹 Dependencies  
+- @hello-pangea/dnd  
+- @tanstack/react-query  
+- @tanstack/react-router  
+- axios  
+- date-fns  
+- firebase   
+- jodit-react  
+- lottie-react  
+- react   
+- react-beautiful-dnd  
+- react-datepicker  
+- react-dom  
+- react-helmet  
+- react-icons  
+- react-loader-spinner  
+- react-router-dom  
+- react-sweetalert2  
+- react-tooltip  
 
-## 🌟 Core Functionalities:  
-### User Role Management:  
-- **Admin 🌐**: Full control of the platform, including user management, donation requests, funding, and content publishing.  
-- **Donor 🩸**: Ability to register, view donation requests, respond to requests, and manage their own profiles.  
-- **Volunteer 🤝**: Permission to create and manage donation requests. Volunteers can update the status of blood donation requests.  
-- 💡 *Admins can assign roles (e.g., Volunteer, Admin) or block users directly from the database.*  
+## 🔹 Installation Steps  
+Follow these steps to set up and run the frontend project:  
 
-### 🔒 User Authentication:  
-- **Registration**:  
-  - Users can register with their email, name, avatar (via imageBB), blood group, district, upazila, and password. By default, every registered user becomes a "Donor."  
-  - **Default User Status**: Active.  
-  - Admins can block/unblock users, which updates their status accordingly.  
-- **Login**: Secure login with email and password. Social login is not required.  
+1️⃣ **Clone the repository**  
+```bash
+git clone https://github.com/engrsakib/simple-ToDo-frontend.git
+cd simple-ToDo-frontend
+```  
 
-### 🔑 Private Dashboard:  
-- **Profile Management**:  
-  - Users can view and edit their profile data, except for their email, which remains static.  
-  - Admins can manage all users, while donors and volunteers manage only their own data.  
+2️⃣ **Install dependencies**  
+```bash
+npm install
+```  
 
-#### Donor-Specific Features:  
-- **Recent Donation Requests**: Donors can view their top three recent requests on the dashboard homepage.  
-- **Full Donation History**: Paginated view of all donation requests with filtering options (`pending`, `in-progress`, `done`, `canceled`).  
-- **Create Requests**: Donors can submit detailed blood donation requests, including recipient details, location, and donation dates.  
-  *Note: Only active donors can create requests.*  
+3️⃣ **Set up environment variables**  
+Create a `.env` file in the root directory and add:  
+```
+VITE_API_BASE_URL=http://localhost:5000
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_AUTH_DOMAIN=your_firebase_auth_domain
+VITE_PROJECT_ID=your_firebase_project_id
+VITE_STORAGE_BUCKET=your_firebase_storage_bucket
+VITE_MESSAGING_SENDER_ID=your_firebase_sender_id
+VITE_APP_ID=your_firebase_app_id
+```  
 
-#### Admin-Specific Features:  
-- **Dashboard Statistics**:  
-  - View total users, total funding, and total donation requests in real-time.  
-- **User Management**:  
-  - Block/unblock users, assign roles, and manage user statuses through a detailed table with pagination and filters.  
-- **Global Request Management**:  
-  - Manage all blood donation requests, edit statuses, and delete requests.  
-- **Content Management**:  
-  - Publish/unpublish blogs, edit and delete content, or add new blogs through a rich text editor.  
+4️⃣ **Run the application**  
+```bash
+npm run dev
+```  
 
-#### Volunteer-Specific Features:  
-- **Request Management**:  
-  - Volunteers can only update the statuses of donation requests (e.g., from "pending" to "in-progress").  
-- **Content Contribution**:  
-  - Volunteers can add blogs but cannot publish or delete content.  
+5️⃣ **Frontend will run on**  
+```
+http://localhost:5173
+```  
 
----
-
-## 🌐 Public Pages:  
-- **Home Page**:  
-  - Includes registration, donor search, contact information, and a responsive footer.  
-- **Search Donors**:  
-  - Users can filter donors by blood group, district, and upazila.  
-- **Donation Requests**:  
-  - Public view of all pending donation requests, with options to view more details after logging in.  
-- **Blogs**:  
-  - Published blogs are accessible publicly, with detailed views for each blog.  
-
----
-
-## 💳 Payment Integration:  
-- **Funding Page**:  
-  - Users can make financial contributions via Stripe integration.  
-  - Displays total funds and detailed records of donations (e.g., donor name, amount, and date).  
-
----
-
-## 📅 Additional Features:  
-- **Pagination**:  
-  - Implemented across all tables and lists (e.g., user management, donation requests, and funding records).  
-- **Sorting & Filtering**:  
-  - Sorting by date, status, or categories to ensure streamlined navigation.  
-- **JWT Protection**:  
-  - Secure private APIs and routes using JSON Web Tokens (JWT), stored in the browser’s local storage.  
-
----
-
-## 🎨 User Experience:  
-- Fully responsive design for mobile, tablet, and desktop devices.  
-- Rich text editing for blog content using **Jodit-react**.  
-
----
-
-## 🛠️ NPM Packages Used:  
-1. **React Icons**: For enriching the UI with scalable icons.  
-2. **React Lottie**: To add engaging animations effortlessly.  
-3. **React Date Picker**: For intuitive and user-friendly date input functionality.  
-4. **React-Simple-Typewriter**: To add dynamic typing effects.  
-5. **React Awesome Reveal**: For stunning animation effects during element entry.  
-6. **AXIOS**: Used for efficient data fetching and API integration.  
-7. **Framer Motion**: For adding smooth animations to enhance the user experience.  
-8. **Sweet Alert/Toastify**: To provide feedback on user actions with notifications and alerts.  
-
----
-
-## 📺 Video Demo:  
-Watch the complete demonstration of BloodBridge on YouTube:  
-<iframe width="560" height="315" src="https://www.youtube.com/embed/BlnfVZZfuL4?si=cf9hV9_J0WN-e0BY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
-
----
-
-## 💡 Contribution:  
-Contributions are welcome! If you want to contribute, please fork the repository and create a pull request. For major changes, open an issue first to discuss what you would like to change.  
-
----
-
-## 📞 Contact:  
-For any inquiries or support, feel free to reach out at:  
-**Email:** contact@bloodbridge.com  
-
----
-
-Thank you for visiting! Let's make BloodBridge a better platform together.  
+This frontend seamlessly integrates with the backend API to provide a smooth and real-time task management experience. 

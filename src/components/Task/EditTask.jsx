@@ -4,14 +4,14 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../provider/AuthProvider";
 import Loading from "../Loading";
 import { Helmet } from "react-helmet";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 const EditTask = () => {
   const location = useLocation();
   const { dark } = useContext(AuthContext);
   const taskId = location?.state?.taskId;
-
+    const navigate = useNavigate();
   // State for task fields
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -62,6 +62,7 @@ const EditTask = () => {
       );
       Swal.fire("Task updated successfully", "", "success");
       refetch();
+        navigate("/");
     } catch (error) {
       console.error("Error updating task:", error);
       Swal.fire("Error updating task", "", "error");

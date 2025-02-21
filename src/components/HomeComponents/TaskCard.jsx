@@ -74,7 +74,7 @@ const TaskCard = ({ task }) => {
         text: "Are you sure you want to edit this file?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "Yes, edit it!",
         cancelButtonText: "No, cancel!",
         reverseButtons: true,
       })
