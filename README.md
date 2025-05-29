@@ -82,7 +82,7 @@ VITE_MESSAGING_SENDER_ID=your_firebase_sender_id
 VITE_APP_ID=your_firebase_app_id
 ```
 
-4️⃣ **Run the application**
+4️⃣ **Run the application** 
 
 ```bash
 npm run dev
