@@ -15,7 +15,7 @@ const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [visible, setVisible] = useState(true);
-  const { users, refetch, isPending } = useGetAllUsers(user);
+  const { users, } = useGetAllUsers(user);
 
   useEffect(() => {
     const handleScroll = () => {
