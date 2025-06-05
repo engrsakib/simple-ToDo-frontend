@@ -2,7 +2,7 @@
 
 # TaskStorm Frontend
 
-## 🔹 Short Description
+## 🔹 Short Description 
 
 TaskStorm is a full-featured task management application where users can add, edit, delete, and reorder tasks using a drag-and-drop interface. The frontend is built with React.js, Tailwind CSS, and DaisyUI for a clean and modern UI experience. The app ensures real-time updates and seamless user interactions.
 
