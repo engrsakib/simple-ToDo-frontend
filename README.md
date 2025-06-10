@@ -20,7 +20,7 @@ TaskStorm is a full-featured task management application where users can add, ed
 - **Website:** [Md. Nazmus Sakib](https://www.engrsakib.com/)
 - **Contact:** info@engrsakib.com
 
-## 🔹 Technologies Used
+## 🔹 Technologies Used 
 
 - **Frontend:** React.js, Tailwind CSS, DaisyUI
 - **State Management:** React Query
